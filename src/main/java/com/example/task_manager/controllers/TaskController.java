@@ -28,4 +28,13 @@ public class TaskController {
                 .status(HttpStatus.OK)
                 .body(tasks);
     }
+
+    @GetMapping("{taskId}")
+    public ResponseEntity<Task> getTaskById(@PathVariable Integer taskListId,
+                                            @PathVariable Integer taskId){
+        var task = taskService.getTaskByTaskIdForTaskListId(taskId,taskListId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(task);
+    }
 }

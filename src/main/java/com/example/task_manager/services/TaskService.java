@@ -19,4 +19,9 @@ public class TaskService {
     public List<Task> getAllTasksForTaskListId(Integer taskListId){
         return taskRepository.findAllByTaskList_TaskListId(taskListId);
     }
+
+    public Task getTaskByTaskIdForTaskListId(Integer taskId, Integer taskListId){
+        return taskRepository.findByTaskIdAndTaskList_TaskListId(taskId,taskListId)
+                .orElseThrow(() -> new RuntimeException("Not found"));
+    }
 }

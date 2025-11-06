@@ -4,10 +4,7 @@ import com.example.task_manager.entities.TaskList;
 import com.example.task_manager.services.TaskListService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +32,13 @@ public class TaskListController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(taskList);
+    }
+
+    @DeleteMapping("{taskListId}")
+    public ResponseEntity<String> deleteTaskListById(@PathVariable Integer taskListId){
+        String msg = taskListService.deleteByTaskListId(taskListId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(msg);
     }
 }

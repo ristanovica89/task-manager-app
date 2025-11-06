@@ -16,13 +16,17 @@ public class TaskListService {
     }
 
     public List<TaskList> findAllByAppUserId(){
-
         return taskListRepository.findAllByAppUser_UserId(appUserId);
     }
 
     public TaskList findByTaskListIdForAppUserId(Integer taskListId){
         return taskListRepository.findByTaskListIdAndAppUser_UserId(taskListId, appUserId)
                 .orElseThrow(() -> new RuntimeException("Not found"));
+    }
+
+    public String deleteByTaskListId(Integer taskListId){
+        taskListRepository.deleteById(taskListId);
+        return "List of tasks is successfully deleted";
     }
 
 }
