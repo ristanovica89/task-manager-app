@@ -34,6 +34,14 @@ public class TaskListController {
                 .body(taskList);
     }
 
+    @PostMapping
+    public ResponseEntity<String> createNewTaskList(@RequestBody TaskList taskList){
+        String response = taskListService.createNewTaskList(taskList);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
+    }
+
     @DeleteMapping("{taskListId}")
     public ResponseEntity<String> deleteTaskListById(@PathVariable Integer taskListId){
         String msg = taskListService.deleteByTaskListId(taskListId);

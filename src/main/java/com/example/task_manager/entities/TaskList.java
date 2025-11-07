@@ -1,7 +1,6 @@
 package com.example.task_manager.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-//import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +24,5 @@ public class TaskList {
     private AppUser appUser;
 
     @OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JsonManagedReference
     private List<Task> tasks;
 }

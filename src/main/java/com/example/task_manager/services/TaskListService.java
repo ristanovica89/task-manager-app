@@ -24,6 +24,11 @@ public class TaskListService {
                 .orElseThrow(() -> new RuntimeException("Not found"));
     }
 
+    public String createNewTaskList(TaskList taskList){
+        taskListRepository.save(taskList);
+        return "New task list has been created";
+    }
+
     public String deleteByTaskListId(Integer taskListId){
         taskListRepository.deleteById(taskListId);
         return "List of tasks is successfully deleted";

@@ -9,6 +9,5 @@ import java.util.Optional;
 public interface TaskListRepository extends JpaRepository<TaskList, Integer> {
 
     List<TaskList> findAllByAppUser_UserId(Integer userId);
-
     Optional<TaskList> findByTaskListIdAndAppUser_UserId(Integer taskListId, Integer userId);
 }
