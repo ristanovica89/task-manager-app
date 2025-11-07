@@ -35,4 +35,24 @@ public class TaskService {
         taskRepository.save(task);
         return "New task has been successfully created";
     }
+
+    public String updateTaskById(Integer taskListId, Integer taskId, Task task){
+        TaskList taskList = taskListRepository.findById(taskListId)
+                .orElseThrow(() -> new RuntimeException("Task list not found."));
+        Task existingTask = taskRepository.findByTaskIdAndTaskList_TaskListId(taskId,taskListId)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        existingTask.setTitle(task.getTitle());
+        existingTask.setShortDescription(task.getShortDescription());
+        existingTask.setIsDone(task.getIsDone());
+
+        taskRepository.save(existingTask);
+
+        return "Task with id: " + existingTask.getTaskId() +" has been successfully updated";
+    }
+
+    public String deleteById(Integer taskId){
+        taskRepository.deleteById(taskId);
+        return "Task has been successfully deleted";
+    }
 }
