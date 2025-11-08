@@ -2,6 +2,8 @@ package com.example.task_manager.services;
 
 import com.example.task_manager.entities.Task;
 import com.example.task_manager.entities.TaskList;
+import com.example.task_manager.exception.notFoundExc.TaskListNotFoundException;
+import com.example.task_manager.exception.notFoundExc.TaskNotFoundException;
 import com.example.task_manager.repository.TaskListRepository;
 import com.example.task_manager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -20,17 +22,23 @@ public class TaskService {
     }
 
     public List<Task> getAllTasksForTaskListId(Integer taskListId){
+        taskListRepository.findById(taskListId)
+                .orElseThrow(() -> new TaskListNotFoundException(
+                        "Task list with id: " + taskListId + " not found"
+                ));
         return taskRepository.findAllByTaskList_TaskListId(taskListId);
     }
 
     public Task getTaskByTaskIdForTaskListId(Integer taskId, Integer taskListId){
         return taskRepository.findByTaskIdAndTaskList_TaskListId(taskId,taskListId)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+                .orElseThrow(() -> new TaskNotFoundException("Task is not found"));
     }
 
     public String createNewTaskForTaskListId(Task task, Integer taskListId){
         TaskList taskList = taskListRepository.findById(taskListId)
-                .orElseThrow(() -> new RuntimeException("Task list not found."));
+                .orElseThrow(() -> new TaskListNotFoundException(
+                        "Task list with id: " + taskListId + " not found"
+                ));
         task.setTaskList(taskList);
         taskRepository.save(task);
         return "New task has been successfully created";
@@ -38,9 +46,11 @@ public class TaskService {
 
     public String updateTaskById(Integer taskListId, Integer taskId, Task task){
         TaskList taskList = taskListRepository.findById(taskListId)
-                .orElseThrow(() -> new RuntimeException("Task list not found."));
+                .orElseThrow(() -> new TaskListNotFoundException(
+                        "Task list with id: " + taskListId + " not found"
+                ));
         Task existingTask = taskRepository.findByTaskIdAndTaskList_TaskListId(taskId,taskListId)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new TaskNotFoundException("Task is not found"));
 
         existingTask.setTitle(task.getTitle());
         existingTask.setShortDescription(task.getShortDescription());
@@ -48,7 +58,7 @@ public class TaskService {
 
         taskRepository.save(existingTask);
 
-        return "Task with id: " + existingTask.getTaskId() +" has been successfully updated";
+        return "Task with id: " + existingTask.getTaskId() + " has been successfully updated";
     }
 
     public String deleteById(Integer taskId){

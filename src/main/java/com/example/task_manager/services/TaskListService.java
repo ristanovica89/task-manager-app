@@ -1,6 +1,7 @@
 package com.example.task_manager.services;
 
 import com.example.task_manager.entities.TaskList;
+import com.example.task_manager.exception.notFoundExc.TaskListNotFoundException;
 import com.example.task_manager.repository.TaskListRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,9 @@ public class TaskListService {
 
     public TaskList findByTaskListIdForAppUserId(Integer taskListId){
         return taskListRepository.findByTaskListIdAndAppUser_UserId(taskListId, appUserId)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+                .orElseThrow(() -> new TaskListNotFoundException(
+                        "Task list with id: " + taskListId + " not found"
+                ));
     }
 
     public String createNewTaskList(TaskList taskList){
