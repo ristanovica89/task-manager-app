@@ -6,20 +6,17 @@ import com.example.task_manager.exception.notFoundExc.TaskListNotFoundException;
 import com.example.task_manager.exception.notFoundExc.TaskNotFoundException;
 import com.example.task_manager.repository.TaskListRepository;
 import com.example.task_manager.repository.TaskRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskListRepository taskListRepository;
-
-    public TaskService(TaskRepository taskRepository, TaskListRepository taskListRepository) {
-        this.taskRepository = taskRepository;
-        this.taskListRepository = taskListRepository;
-    }
 
     public List<Task> getAllTasksForTaskListId(Integer taskListId){
         taskListRepository.findById(taskListId)
